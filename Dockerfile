@@ -21,4 +21,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Run with gunicorn mapping to a random port between 8050-8090
-CMD "gunicorn --bind 0.0.0.0:$(shuf -i 8050-8090 -n 1) 'app:server'"
+CMD gunicorn --bind 0.0.0.0:$(shuf -i 8050-8090 -n 1) "app:server"
