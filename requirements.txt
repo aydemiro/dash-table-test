@@ -1,3 +1,9 @@
-dash>=2.15.0
-pandas>=2.2.0
-gunicorn>=21.2.0
+# Requirements for the Dash interactive_table app
+dash>=2.9.0
+dash-bootstrap-components>=1.3.0
+pandas>=1.5.0
+plotly>=5.11.0
+numpy>=1.24.0
+python-dotenv>=0.21.0
+openpyxl>=3.1.0
+gunicorn>=20.1.0
