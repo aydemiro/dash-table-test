@@ -1,19 +1,24 @@
-# Use an official lightweight Python 3.11+ image
+# Dockerfile for a Dash app (expects app.py and requirements.txt in the build context)
 FROM python:3.11-slim
 
-# Set the working directory in the container
+LABEL maintainer="GitHub Copilot"
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+	PYTHONUNBUFFERED=1 
+
 WORKDIR /app
 
-# Copy requirements and install them
+# Install build deps (some Python packages require a compiler)
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends build-essential \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
+# Copy application code
 COPY . .
 
-# Expose the port Dash will run on
-EXPOSE 8050
-
-# Run the app using Gunicorn for production-grade serving
-# Ensure 'server = app.server' is defined in your app.py
-CMD ["gunicorn", "--bind", "0.0.0.0:8050", "app:server"]
+# Run with gunicorn mapping to a random port between 8050-8090
+CMD ["gunicorn", "app:server", "-bind", "0.0.0.0:$(shuf -i 8050-8090 -n 1)"]
