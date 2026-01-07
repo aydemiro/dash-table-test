@@ -2,11 +2,7 @@ import base64
 import io
 import csv
 import pandas as pd
-from dash import Dash, dcc, html, Input, Output, State
-import dash_table
-
-# /Users/aydemo/UMass Medical School Dropbox/Ozkan Aydemir/Projects/Code/Processes/dash/interactive_table/app.py
-
+from dash import Dash, dcc, html, Input, Output, State, dash_table
 
 app = Dash(__name__)
 server = app.server
