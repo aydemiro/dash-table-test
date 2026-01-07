@@ -157,4 +157,4 @@ def update_output(contents, delimiter_choice, filename):
 
 
 if __name__ == "__main__":
-	app.run_server(debug=True, port=8050)
+	app.run_server(debug=True, port=8789)
