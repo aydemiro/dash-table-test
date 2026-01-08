@@ -156,4 +156,4 @@ def update_output(contents, delimiter_choice, filename):
 
 
 if __name__ == "__main__":
-	app.run(debug=True, port=8789)
+	app.run(host="0.0.0.0", debug=True, port=8789)
