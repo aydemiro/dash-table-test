@@ -1,8 +1,7 @@
 # Dockerfile for a Dash app (expects app.py and requirements.txt in the build context)
 FROM python:3.11-slim
 
-LABEL maintainer="GitHub Copilot"
-
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
 	PYTHONUNBUFFERED=1 
 
@@ -20,5 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Run with gunicorn mapping to a random port between 8050-8090
+# Expose the port Dash is running on
+EXPOSE 8789
+
+# Run with gunicorn 
 CMD gunicorn --chdir /app/source --bind 0.0.0.0:8789 "app:server"
