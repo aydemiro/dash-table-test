@@ -90,9 +90,9 @@ def parse_contents(contents: str, filename: str, delimiter_choice: str) -> pd.Da
 		df = pd.read_csv(io.StringIO(text), sep=delim, engine="python")
 	except Exception as e:
 		raise ValueError(f"Error parsing file with delimiter {repr(delim)}: {e}")
-	# If no column names, give defaults
-	if df.columns.dtype == "int64" or any(str(c).startswith("Unnamed") for c in df.columns):
-		df.columns = [str(c) for c in df.columns]
+	# Rename dataframe columns to strings to match column ids
+	df = df.rename(columns=lambda c: str(c))
+	
 	return df
 
 
@@ -113,9 +113,8 @@ def update_output(contents, delimiter_choice, filename):
 			filename or "",
 			html.Div(f"Failed to parse file: {e}", style={"color": "red"}),
 		)
-
 	# Build DataTable
-	columns = [{"name": col, "id": col} for col in df.columns]
+	columns = [{"name": str(col), "id": str(col)} for col in df.columns]
 	data = df.to_dict("records")
 	page_size = 20
 	virtualize = len(df) > 1000
@@ -157,4 +156,4 @@ def update_output(contents, delimiter_choice, filename):
 
 
 if __name__ == "__main__":
-	app.run_server(debug=True, port=8789)
+	app.run(debug=True, port=8789)
